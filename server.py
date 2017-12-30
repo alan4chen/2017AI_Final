@@ -31,7 +31,7 @@ def handle_incoming_messages():
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
 
-    print(message)
+    print('{:15}: {}'.format(sender, message))
     response = "ADD PAGES RESPONSE HERE"
     reply(sender, response)
 
