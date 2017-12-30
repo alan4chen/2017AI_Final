@@ -7,6 +7,7 @@ from datetime import datetime
 
 import requests
 from flask import Flask, request
+from indicator_predictor.indicator_similarity_predictor import handler
 
 app = Flask(__name__)
 
@@ -44,7 +45,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    replied_text = "你說{}, roger that!".format(message_text)
+                    replied_text = "哦~我知道了，你想要的是比較{}的公司股票, 對吧!".format(handler(message_text))
                     send_message(sender_id, replied_text)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
