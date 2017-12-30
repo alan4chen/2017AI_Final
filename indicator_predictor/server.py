@@ -7,7 +7,7 @@ from datetime import datetime
 
 import requests
 from flask import Flask, request
-from indicator_predictor.indicator_similarity_predictor import handler
+from indicator_similarity_predictor import handler
 
 app = Flask(__name__)
 
