@@ -1,4 +1,6 @@
-import os
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import json
 from datetime import datetime
@@ -10,6 +12,7 @@ app = Flask(__name__)
 
 PAGE_ACCESS_TOKEN = "EAANa6oMiTBgBAHBWq4T1oB2Ejhh7HIaH5IWxZCvUZCxg1djsid95QDpC5ec3NqsNpZCi0ZBC8quE2idX0RcJhLtl2AfFJASZBBe2PwrKurZArxAkstYkAyIgkTFGOExhXhFCEZBPatpkg3KCVZAhdhBOqvLuLiMU11EGtsMdNIZAa1x9T9ypNfZAZCO"
 VERIFY_TOKEN = "foo"
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -40,7 +43,9 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    send_message(sender_id, "roger that!")
+
+                    replied_text = "你說{}, roger that!".format(message_text)
+                    send_message(sender_id, replied_text)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
