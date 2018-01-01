@@ -64,9 +64,9 @@ def handler(sentence):
     ret = ""
     ret += random.choice(idx2pihua[idx]) + "\n" # 分類的說明
 
-    ret += "目前我只會看台灣資訊產業的公司，我推薦的股票如下：\n\n"
+    ret += "目前我只會看台灣資訊產業的公司噢，我推薦的股票如下：\n\n"
 
-    for stock_num in [StockRankNum[idx][0]] + random.sample( set(StockRankNum[idx][1:5]),2) :
+    for stock_num in random.sample( set(StockRankNum[idx][:5]),3) :
         tmp = ""
         tmp += str(stock_ids[stock_num]) + " " + stock_names[stock_num] + "\n參考網址:" + "https://tw.stock.yahoo.com/q/q?s=" + str(stock_ids[stock_num]) + "\n"
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     # p = handler(client_sentence)
     # print(p)
     #
-    client_sentence = "我想要比較便宜，可能被低估的"
+    client_sentence = "我想要比較便宜，可能被低估的~~"
     p = handler(client_sentence)
     print(p)
 
