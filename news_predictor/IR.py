@@ -61,3 +61,6 @@ print(minimum_file_name[8:12]+": "+filename_to_name_dic[int(minimum_file_name[8:
 print("term found:")
 for i in term_dic:
     print(i+": "+str(term_dic[i]))
+
+import random
+random.seed()
