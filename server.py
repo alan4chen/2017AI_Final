@@ -43,11 +43,14 @@ def webhook():
             for messaging_event in entry["messaging"]:
 
                 if messaging_event.get("message"):  # someone sent us a message
-                    if not messaging_event["message"].get("text"):
-                        pass
-                    
-                    sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
+                    sender_id = messaging_event["sender"]["id"]  # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+
+                    if not messaging_event["message"].get("text"):
+                        replied_text = 'Hi~ 我是股市小精靈，請輸入"你好"來開始對話喔！我現在可以用指數或是新聞來幫您分析股票喔！'
+                        send_message(sender_id, replied_text, "simple")
+                        return "ok", 200
+
                     message_text = messaging_event["message"]["text"]  # the message's text
 
                     if sender_id not in usersRegister and message_text == "你好":
