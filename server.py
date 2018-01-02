@@ -47,11 +47,16 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    if sender_id not in usersRegister:
-                        # Say hello
+                    if sender_id not in usersRegister and message_text == "你好":
+                        # User say hello and start a new conversation
                         usersRegister = {sender_id: "0"}
-                        replied_text = "您好！ 請選擇下列兩種分析方式："
+                        replied_text = "您好～ 請選擇下列兩種分析方式："
                         send_message(sender_id, replied_text, "choice")
+
+                    elif sender_id not in usersRegister and message_text != "你好":
+                        # User say did not start a conversation, reply usage
+                        replied_text = 'Hi~ 我是股市小精靈，請輸入"你好"來開始對話喔！我現在可以用指數或是新聞來幫您分析股票喔！'
+                        send_message(sender_id, replied_text, "simple")
 
                     elif usersRegister[sender_id] == "1":
                         del usersRegister[sender_id]
@@ -64,6 +69,7 @@ def webhook():
                         send_message(sender_id, replied_text, "simple")
 
                     else:
+                        # handle quick response
                         if messaging_event["message"].get("quick_reply"):
                             payload = messaging_event["message"]["quick_reply"]["payload"]
                             if payload == "1":
@@ -88,8 +94,7 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    print("_______ In Postback _______\n\n")
-                    print(messaging_event)
+                    pass
 
     return "ok", 200
 
