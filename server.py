@@ -43,28 +43,43 @@ def webhook():
             for messaging_event in entry["messaging"]:
 
                 if messaging_event.get("message"):  # someone sent us a message
-
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    # if first time
                     if sender_id not in usersRegister:
+                        # Say hello
+                        usersRegister = {sender_id: "0"}
                         replied_text = "您好！ 請選擇下列兩種分析方式："
                         send_message(sender_id, replied_text, "choice")
 
                     elif usersRegister[sender_id] == "1":
+                        del usersRegister[sender_id]
                         replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
 
                     elif usersRegister[sender_id] == "2":
+                        del usersRegister[sender_id]
                         replied_text = ir_predictor(message_text)
                         send_message(sender_id, replied_text, "simple")
 
                     else:
-                        # if not method 1 or 2
-                        replied_text = "系統忙碌中，醒稍後再試..."
-                        send_message(sender_id, replied_text, "simple")
+                        if messaging_event["message"].get("quick_reply"):
+                            payload = messaging_event["message"]["quick_reply"]["payload"]
+                            if payload == "1":
+                                usersRegister[sender_id] = "1"
+                                replied_text = "您選擇了指標分析方法，請輸入查詢內容："
+                                send_message(sender_id, replied_text, "simple")
+                            elif payload == "2":
+                                usersRegister[sender_id] = "2"
+                                replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
+                                send_message(sender_id, replied_text, "simple")
+                            else:
+                                pass
+                        else:
+                            usersRegister[sender_id]  = "0"
+                            replied_text = "請再次選擇下列兩種分析方式："
+                            send_message(sender_id, replied_text, "choice")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
