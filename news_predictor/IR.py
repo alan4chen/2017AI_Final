@@ -23,6 +23,7 @@ for i in range(len(stock_num_list)):
         tag_dic[x] = w
     top10_dic[file_name] = tag_dic
         #print(",".join(tags))
+    
 
 def ir_predictor(query):
 
@@ -51,16 +52,17 @@ def ir_predictor(query):
             minimum_file_name = i
             term_dic = temp_dic
 
+    minimum_stock_index = int(minimum_file_name[20:24])
+
     # print("minimum error = "+str(minimum_error)+", "+minimum_file_name)
 
-    # print(minimum_file_name[7:11]+": "+filename_to_name_dic[int(minimum_file_name[7:11])])
+    # print(minimum_stock_index+": "+filename_to_name_dic[minimum_stock_index])
 
     # print("term found:")
 
 
-
-    ret = "我找到的相關股票是: " + minimum_file_name[7:11] + " " + filename_to_name_dic[int(minimum_file_name[7:11])] + "\n"
-    ret += "參考網址： " + "https://tw.stock.yahoo.com/q/q?s=" + minimum_file_name[7:11] + "\n"
+    ret = "我找到的相關股票是: " + minimum_stock_index + " " + filename_to_name_dic[minimum_stock_index] + "\n"
+    ret += "參考網址： " + "https://tw.stock.yahoo.com/q/q?s=" + minimum_stock_index + "\n"
 
     if len(term_dic) != 0:
         ret += "關鍵詞是： "
