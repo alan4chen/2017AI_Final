@@ -1,6 +1,6 @@
 import jieba
 import jieba.analyse
-jieba.set_dictionary('../indicator_predictor/jieba/dict.txt.big')
+jieba.set_dictionary('indicator_predictor/jieba/dict.txt.big')
 
 stock_num_list = [2427,2453,2468,2471,2480,3029,3130,4994,5203,6112,6183,6214]
 filename_to_name_dic={2427:"三商電",2453:"凌群",2468:"華經",2471:"資通",2480:"敦陽",3029:"零壹",
@@ -9,7 +9,7 @@ filename_to_name_dic={2427:"三商電",2453:"凌群",2468:"華經",2471:"資通"
 top10_dic = {}
 
 for i in range(len(stock_num_list)):
-    file_name = "./news/"+str(stock_num_list[i])+".txt"
+    file_name = "news_predictor/news/"+str(stock_num_list[i])+".txt"
     f = open(file_name, encoding='utf-8')
     #seg_list = jieba.cut(f.read(), cut_all=False)
     #print("Full Mode: " + "/ ".join(seg_list))  # 全模式

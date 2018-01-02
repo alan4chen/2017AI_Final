@@ -1,8 +1,8 @@
 
-from data.indicator_keywords import idx2pihua
-from preprocessor import reader_indicator_keywords_meaning, reader_indicator_keywords, jieba_process, fastText_sentence2vector, stopper
-from rank_stock import stock_ids, stock_names, indicator_data, StockRankNum
-from pihua import get_pihua, get_scores
+from indicator_predictor.data.indicator_keywords import idx2pihua
+from indicator_predictor.preprocessor import reader_indicator_keywords_meaning, reader_indicator_keywords, jieba_process, fastText_sentence2vector, stopper
+from indicator_predictor.rank_stock import stock_ids, stock_names, indicator_data, StockRankNum
+from indicator_predictor.pihua import get_pihua, get_scores
 from scipy import spatial
 
 def cal_consine_sim(v1, v2):

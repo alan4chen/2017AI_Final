@@ -7,13 +7,15 @@ from datetime import datetime
 
 import requests
 from flask import Flask, request
-from indicator_similarity_predictor import handler
+from indicator_predictor.indicator_similarity_predictor import handler
+from news_predictor.IR import ir_predictor
 
 app = Flask(__name__)
 
 PAGE_ACCESS_TOKEN = "EAANa6oMiTBgBAHBWq4T1oB2Ejhh7HIaH5IWxZCvUZCxg1djsid95QDpC5ec3NqsNpZCi0ZBC8quE2idX0RcJhLtl2AfFJASZBBe2PwrKurZArxAkstYkAyIgkTFGOExhXhFCEZBPatpkg3KCVZAhdhBOqvLuLiMU11EGtsMdNIZAa1x9T9ypNfZAZCO"
 VERIFY_TOKEN = "foo"
 
+usersRegister = {}
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -29,6 +31,7 @@ def verify():
 
 @app.route('/', methods=['POST'])
 def webhook():
+    global usersRegister
 
     # endpoint for processing incoming messaging events
 
@@ -45,8 +48,10 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    replied_text = "哦~我知道了，你想要的是比較{}的公司股票, 對吧!".format(handler(message_text))
-                    send_message(sender_id, replied_text)
+                    replied_text = handler(message_text)
+                    replied_text2 = ir_predictor(message_text)
+                    send_message(sender_id, 'Method1 is : '+replied_text)
+                    send_message(sender_id, 'Method2 is : '+replied_text2)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass

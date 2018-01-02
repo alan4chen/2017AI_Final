@@ -7,7 +7,7 @@ def stock_indicator_reader():
     data = []
     stock_ids = []
     stock_names = []
-    for line in open('./data/indicator_data.csv', 'r').readlines()[1:]:
+    for line in open('indicator_predictor/data/indicator_data.csv', 'r').readlines()[1:]:
         splitted = line.split(",")
         stock_ids.append(int(splitted[0]))
         stock_names.append(splitted[1])

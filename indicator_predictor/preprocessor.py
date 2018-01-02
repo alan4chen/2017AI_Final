@@ -1,13 +1,13 @@
 
 
 import jieba
-jieba.set_dictionary("jieba/dict.txt.big")
+jieba.set_dictionary("indicator_predictor/jieba/dict.txt.big")
 import numpy as np
 import csv
 import os
 
 import _pickle
-from stopper import CHAR_TO_REMOVE
+from indicator_predictor.stopper import CHAR_TO_REMOVE
 
 DATA_CATCHED = True
 
@@ -28,14 +28,14 @@ def jieba_process(sentences):
     return ret
 
 
-def fastText_get_vectorDict(path = './wiki.zh.vec'):
+def fastText_get_vectorDict(path = 'indicator_predictor/word2vec/wiki.zh.vec.pickle'):
     """ return word2vec dict
 
     :param path:
     :return:
     """
 
-    pickle_path = './word2vec/wiki.zh.vec.pickle'
+    pickle_path = 'indicator_predictor/word2vec/wiki.zh.vec.pickle'
     if DATA_CATCHED == True and os.path.isfile(pickle_path):
         print("-- return cached wiki.zh.vec.pickle --")
         return _pickle.load(open(pickle_path, 'rb'))
@@ -86,7 +86,7 @@ def fastText_sentence2vector(sentences):
     return matrix
 
 def reader_indicator_keywords_meaning():
-    from data.indicator_keywords import keywords_meaning as keywords_data
+    from indicator_predictor.data.indicator_keywords import keywords_meaning as keywords_data
     ret = []
     for keywords in keywords_data:
         splitted = keywords.split(" ")
@@ -95,7 +95,7 @@ def reader_indicator_keywords_meaning():
 
 
 def reader_indicator_keywords():
-    from data.indicator_keywords import keywords as keywords_data
+    from indicator_predictor.data.indicator_keywords import keywords as keywords_data
     ret = []
     for keywords in keywords_data:
         splitted = keywords.split(" ")

@@ -2,7 +2,7 @@
 def reader_pihua():
     data = []
     tmp = None
-    for line in open("./data/pihua_data", "r").readlines():
+    for line in open("indicator_predictor/data/pihua_data", "r").readlines():
         if len(line) < 3:
             continue
         if len(line) < 10:
@@ -17,7 +17,7 @@ pihua_data = reader_pihua()
 
 def reader_score():
     data = []
-    for line in open('./data/pihua_scores', 'r').readlines():
+    for line in open('indicator_predictor/data/pihua_scores', 'r').readlines():
         splitted = line.replace("\n", "").split(",")[1:]
         data.append([int(x) for x in splitted])
     return data
