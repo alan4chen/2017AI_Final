@@ -45,7 +45,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    replied_text = "哦~我知道了，你想要的是比較{}的公司股票, 對吧!".format(handler(message_text))
+                    replied_text = handler(message_text)
                     send_message(sender_id, replied_text)
 
                 if messaging_event.get("delivery"):  # delivery confirmation

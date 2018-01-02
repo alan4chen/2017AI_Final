@@ -21,7 +21,9 @@ def jieba_process(sentences):
              """
     ret = []
     for sentence in sentences:
-        splitted = list(jieba.cut("".join(sentence)))
+        s = "".join(sentence)
+        s = stopper(s)
+        splitted = list(jieba.cut(s))
         ret.append(splitted)
     return ret
 
@@ -56,14 +58,12 @@ def fastText_get_vectorDict(path = './wiki.zh.vec'):
     _pickle.dump(vectorDict, open(pickle_path, 'wb'))
     return vectorDict
 
-
+vectorDict = fastText_get_vectorDict()
 def fastText_sentence2vector(sentences):
     """ process sentences (list of list of words) into matrix of (samples, vector)
     :param sentences:
     :return:
     """
-    vectorDict = fastText_get_vectorDict()
-
     matrix = np.zeros(shape=(len(sentences), 300))
     for idx, sentence in enumerate(sentences):
         counter = 0
@@ -85,6 +85,15 @@ def fastText_sentence2vector(sentences):
             print(idx, ' / ', len(sentences))
     return matrix
 
+def reader_indicator_keywords_meaning():
+    from data.indicator_keywords import keywords_meaning as keywords_data
+    ret = []
+    for keywords in keywords_data:
+        splitted = keywords.split(" ")
+        ret.append(splitted)
+    return ret
+
+
 def reader_indicator_keywords():
     from data.indicator_keywords import keywords as keywords_data
     ret = []
@@ -92,3 +101,8 @@ def reader_indicator_keywords():
         splitted = keywords.split(" ")
         ret.append(splitted)
     return ret
+
+def stopper(s):
+    for word in CHAR_TO_REMOVE:
+        s = s.replace(word, "")
+    return s
