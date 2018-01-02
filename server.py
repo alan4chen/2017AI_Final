@@ -48,10 +48,23 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
 
-                    replied_text = handler(message_text)
-                    replied_text2 = ir_predictor(message_text)
-                    send_message(sender_id, 'Method1 is : '+replied_text)
-                    send_message(sender_id, 'Method2 is : '+replied_text2)
+                    # if first time
+                    if sender_id not in usersRegister:
+                        replied_text = "您好！ 請選擇下列兩種分析方式："
+                        send_message(sender_id, replied_text, "choice")
+
+                    elif usersRegister[sender_id] == "1":
+                        replied_text = handler(message_text)
+                        send_message(sender_id, replied_text, "simple")
+
+                    elif usersRegister[sender_id] == "2":
+                        replied_text = ir_predictor(message_text)
+                        send_message(sender_id, replied_text, "simple")
+
+                    else:
+                        # if not method 1 or 2
+                        replied_text = "系統忙碌中，醒稍後再試..."
+                        send_message(sender_id, replied_text, "simple")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -60,12 +73,13 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+                    print("_______ In Postback _______\n\n")
+                    print(messaging_event)
 
     return "ok", 200
 
 
-def send_message(recipient_id, message_text):
+def send_message(recipient_id, message_text, action="simple"):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
@@ -75,14 +89,39 @@ def send_message(recipient_id, message_text):
     headers = {
         "Content-Type": "application/json"
     }
-    data = json.dumps({
-        "recipient": {
-            "id": recipient_id
-        },
-        "message": {
-            "text": message_text
-        }
-    })
+    if action == "choice":
+        data = json.dumps({
+            "recipient": {
+                "id": recipient_id
+            },
+            "message":{
+                "text": message_text,
+                "quick_replies":[
+                  {
+                    "content_type":"text",
+                    "title":"指標分析",
+                    "payload":"1"
+                  },
+                  {
+                    "content_type":"text",
+                    "title":"新聞分析",
+                    "payload":"2"
+                  }
+                ]
+            }
+        })
+    elif action == "simple":
+        data = json.dumps({
+            "recipient": {
+                "id": recipient_id
+            },
+            "message": {
+                "text": message_text
+            }
+        })
+    else:
+        pass
+
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
