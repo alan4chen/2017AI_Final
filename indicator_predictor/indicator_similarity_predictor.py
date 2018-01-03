@@ -66,7 +66,9 @@ def handler(sentence):
 
     ret += "目前我只會看台灣資訊產業的公司噢，我推薦的股票如下：\n\n"
 
-    for stock_num in random.sample( set(StockRankNum[idx][:5]),3) :
+
+
+    for stock_num in [StockRankNum[idx][x] for x in sorted(random.sample(range(5), 3))]:
         tmp = ""
         tmp += str(stock_ids[stock_num]) + " " + stock_names[stock_num] + "\n參考網址:" + "https://tw.stock.yahoo.com/q/q?s=" + str(stock_ids[stock_num]) + "\n"
 
