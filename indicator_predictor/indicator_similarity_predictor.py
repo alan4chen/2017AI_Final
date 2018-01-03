@@ -67,8 +67,10 @@ def handler(sentence):
     ret += "目前我只會看台灣資訊產業的公司噢，我推薦的股票如下：\n\n"
 
 
-
+    ret_stockID = 0
     for stock_num in [StockRankNum[idx][x] for x in sorted(random.sample(range(5), 3))]:
+        if ret_stockID == 0:
+            ret_stockID = stock_num
         tmp = ""
         tmp += str(stock_ids[stock_num]) + " " + stock_names[stock_num] + "\n參考網址:" + "https://tw.stock.yahoo.com/q/q?s=" + str(stock_ids[stock_num]) + "\n"
 
@@ -78,7 +80,7 @@ def handler(sentence):
         tmp += get_scores(stock_num, idx) + "\n"
 
         ret += tmp+"\n"
-    return ret
+    return ret_stockID, ret
 
 if __name__ == "__main__":
     client_sentence = "賺很多 很賺錢的公司"

@@ -16,6 +16,19 @@ PAGE_ACCESS_TOKEN = "EAANa6oMiTBgBAHBWq4T1oB2Ejhh7HIaH5IWxZCvUZCxg1djsid95QDpC5e
 VERIFY_TOKEN = "foo"
 
 usersRegister = {}
+stockMapping = {2427:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                2453:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                2468:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                2471:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                2480:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                3029:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                3130:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                4994:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                5203:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                6112:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                6183:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                6214:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+                }
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -66,11 +79,12 @@ def webhook():
                         send_message(sender_id, replied_text, "simple")
 
                     elif usersRegister[sender_id] == "1":
-                        replied_text = handler(message_text)
+                        stockID, replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
 
                         # show stock pic
-                        send_message(sender_id, replied_text, "stock")
+                        if stockID != 0:
+                            send_message(sender_id, stockID, "stock")
 
                         # asked for rating
                         send_message(sender_id, "喜歡我們的服務嗎？請幫我們評分：", "rating")
@@ -78,11 +92,12 @@ def webhook():
                         usersRegister[sender_id] = "3"
 
                     elif usersRegister[sender_id] == "2":
-                        replied_text = ir_predictor(message_text)
+                        stockID, replied_text = ir_predictor(message_text)
                         send_message(sender_id, replied_text, "simple")
 
                         # show stock pic
-                        send_message(sender_id, replied_text, "stock")
+                        if stockID != 0:
+                            send_message(sender_id, stockID, "stock")
 
                         # asked for rating
                         send_message(sender_id, "喜歡我們的服務嗎？請幫我們評分：", "rating")
@@ -217,6 +232,7 @@ def send_message(recipient_id, message_text, action="simple"):
             }
         })
     elif action == "stock":
+        global stockMapping
         data = json.dumps({
             "recipient": {
                 "id": recipient_id
@@ -229,7 +245,7 @@ def send_message(recipient_id, message_text, action="simple"):
                         "elements": [
                             {
                                 "media_type": "image",
-                                "url": "https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater"
+                                "url": stockMapping[message_text]
                             }
                         ]
                     }

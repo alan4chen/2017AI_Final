@@ -93,9 +93,9 @@ def ir_predictor(query):
                 continue
         ret += "\n"
 
-        return ret
+        return minimum_stock_index, ret
     else:
-        return "no suitable stock found :("
+        return 0, "no suitable stock found :("
 
 if __name__ == "__main__":
     #query = "獲利"
