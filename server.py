@@ -82,10 +82,12 @@ def webhook():
                                 usersRegister[sender_id] = "1"
                                 replied_text = "您選擇了指標分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
+                                send_message(sender_id, replied_text, "stock")
                             elif payload == "2":
                                 usersRegister[sender_id] = "2"
                                 replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
+                                send_message(sender_id, replied_text, "stock")
                             else:
                                 pass
                         else:
@@ -143,6 +145,26 @@ def send_message(recipient_id, message_text, action="simple"):
             },
             "message": {
                 "text": message_text
+            }
+        })
+    elif action == "stock":
+        data = json.dump({
+            "recipient": {
+                "id": recipient_id
+            },
+            "message": {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "media",
+                        "elements": [
+                            {
+                                "media_type": "<image|video>",
+                                "url": "https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater"
+                            }
+                        ]
+                    }
+                }
             }
         })
     else:
