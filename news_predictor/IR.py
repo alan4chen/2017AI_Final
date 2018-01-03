@@ -1,3 +1,4 @@
+import operator
 import jieba
 import jieba.analyse
 jieba.set_dictionary('indicator_predictor/jieba/dict.txt.big')
@@ -8,6 +9,8 @@ filename_to_name_dic={2427:"三商電",2453:"凌群",2468:"華經",2471:"資通"
                       3130:"一零四", 4994:"傳奇", 5203:"訊連", 6112:"聚碩", 6183:"關貿", 6214:"精誠"}
 
 top10_dic = {}
+total_dic = {}
+count = 0
 
 for i in range(len(stock_num_list)):
     file_name = "news_predictor/news/"+str(stock_num_list[i])+".txt"
@@ -24,9 +27,19 @@ for i in range(len(stock_num_list)):
         tag_dic[x] = w
     top10_dic[file_name] = tag_dic
     #if stock_num_list[i] == 2468:
+        #print("2468: ".join(seg_list))
     #    for (x, w) in tags:
     #        print((x, w))
-
+    #for term in seg_list:
+    #    if term in total_dic:
+    #        total_dic[term] += 1
+    #    else:
+    #        total_dic[term] = 1
+    #    count += 1
+#print(total_dic)
+#sorted_dic = sorted(total_dic.items(), key=operator.itemgetter(1))
+#print(sorted_dic)
+#print(count)
 
 def ir_predictor(query):
 
@@ -71,10 +84,15 @@ def ir_predictor(query):
         ret += "關鍵詞是： "
 
         for i in term_dic:
-            ret += i + " "
+            ret += i + "\n" + i + "： \"..."
             # print(i + ": " + str(term_dic[i]))
+            f = open(minimum_file_name, encoding='utf-8')
+            for temp in f.read().split("，"):
+                if temp.find(i) != -1:
+                    ret += temp.replace("\n","") + "...\"\n"
+                continue
         ret += "\n"
-        
+
         return ret
     else:
         return "no suitable stock found :("
