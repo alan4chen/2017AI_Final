@@ -65,7 +65,6 @@ def webhook():
                         send_message(sender_id, replied_text, "simple")
 
                     elif usersRegister[sender_id] == "1":
-                        del usersRegister[sender_id]
                         replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
 
@@ -73,10 +72,11 @@ def webhook():
                         send_message(sender_id, replied_text, "stock")
 
                         # asked for rating
-                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們平分：", "rating")
+                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們評分：", "rating")
+
+                        usersRegister[sender_id] = "3"
 
                     elif usersRegister[sender_id] == "2":
-                        del usersRegister[sender_id]
                         replied_text = ir_predictor(message_text)
                         send_message(sender_id, replied_text, "simple")
 
@@ -85,6 +85,28 @@ def webhook():
 
                         # asked for rating
                         send_message(sender_id, "喜歡我們的服務嗎？請幫我們平分：", "rating")
+
+                        usersRegister[sender_id] = "3"
+
+                    elif usersRegister[sender_id] == "3":
+                        del usersRegister[sender_id]
+                        send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+
+                        # # receive rating
+                        # if messaging_event["message"].get("quick_reply"):
+                        #     payload = messaging_event["message"]["quick_reply"]["payload"]
+                        #     if payload == "5s":
+                        #         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                        #     elif payload == "4s":
+                        #         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                        #     elif payload == "3s":
+                        #         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                        #     elif payload == "2s":
+                        #         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                        #     elif payload == "1s":
+                        #         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                        #     else:
+                        #         pass
 
                     else:
                         # handle quick response
@@ -98,21 +120,8 @@ def webhook():
                                 usersRegister[sender_id] = "2"
                                 replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
-
-                            # receive rating
-                            elif payload == "5s":
-                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
-                            elif payload == "4s":
-                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
-                            elif payload == "3s":
-                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
-                            elif payload == "2s":
-                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
-                            elif payload == "1s":
-                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
                             else:
                                 pass
-
                         else:
                             usersRegister[sender_id]  = "0"
                             replied_text = "請再次選擇下列兩種分析方式："
@@ -176,22 +185,22 @@ def send_message(recipient_id, message_text, action="simple"):
                   },
                   {
                     "content_type":"text",
-                    "title":"4",
+                    "title":"4★",
                     "payload":"4s"
                   },
                   {
                     "content_type":"text",
-                    "title":"3",
+                    "title":"3★",
                     "payload":"3s"
                   },
                   {
                     "content_type":"text",
-                    "title":"2",
+                    "title":"2★",
                     "payload":"2s"
                   },
                   {
                     "content_type":"text",
-                    "title":"1",
+                    "title":"1★",
                     "payload":"1s"
                   }
                 ]
