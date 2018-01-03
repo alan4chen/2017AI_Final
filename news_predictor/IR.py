@@ -14,7 +14,7 @@ for i in range(len(stock_num_list)):
     f = open(file_name, encoding='utf-8')
     #seg_list = jieba.cut(f.read(), cut_all=False)
     #print("Full Mode: " + "/ ".join(seg_list))  # 全模式
-    tags = jieba.analyse.extract_tags(f.read(), topK=15, withWeight=True)
+    tags = jieba.analyse.extract_tags(f.read(), topK=50, withWeight=True)
 
     # for x, w in tags:
     #     print('%s %s' % (x, w))
@@ -23,15 +23,17 @@ for i in range(len(stock_num_list)):
     for (x, w) in tags:
         tag_dic[x] = w
     top10_dic[file_name] = tag_dic
-        #print(",".join(tags))
+    #if stock_num_list[i] == 2468:
+    #    for (x, w) in tags:
+    #        print((x, w))
 
 
 def ir_predictor(query):
 
-    tags = jieba.analyse.extract_tags(query, topK=15, withWeight=True)
+    tags = jieba.analyse.extract_tags(query, topK=50, withWeight=True)
     query_list = []
     for x, w in tags:
-        # print('%s %s' % (x, w))
+        print('%s %s' % (x, w))
         query_list = query_list + [(x, w)]
 
     minimum_file_name = ""
@@ -78,14 +80,17 @@ def ir_predictor(query):
         return "no suitable stock found :("
 
 if __name__ == "__main__":
-    query = "獲利"
-    print(ir_predictor(query))
+    #query = "獲利"
+    #print(ir_predictor(query))
 
-    query = "我想要跟電腦有關的股票"
-    print(ir_predictor(query))
+    #query = "我想要跟電腦有關的股票"
+    #print(ir_predictor(query))
 
-    query = "我想要跟機車有關的股票"
-    print(ir_predictor(query))
+    #query = "我想要跟機車有關的股票"
+    #print(ir_predictor(query))
 
-    query = "我想要跟機器人有關的股票"
+    #query = "我想要跟機器人有關的股票"
+    #print(ir_predictor(query))
+
+    query = "我想要人工智慧的股票"
     print(ir_predictor(query))
