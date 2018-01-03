@@ -1,6 +1,7 @@
 import jieba
 import jieba.analyse
 jieba.set_dictionary('indicator_predictor/jieba/dict.txt.big')
+#jieba.set_dictionary('dict.txt.big')
 
 stock_num_list = [2427,2453,2468,2471,2480,3029,3130,4994,5203,6112,6183,6214]
 filename_to_name_dic={2427:"三商電",2453:"凌群",2468:"華經",2471:"資通",2480:"敦陽",3029:"零壹",
@@ -71,8 +72,10 @@ def ir_predictor(query):
             ret += i + " "
             # print(i + ": " + str(term_dic[i]))
         ret += "\n"
-
-    return ret
+        
+        return ret
+    else:
+        return "no suitable stock found :("
 
 if __name__ == "__main__":
     query = "獲利"
@@ -82,4 +85,7 @@ if __name__ == "__main__":
     print(ir_predictor(query))
 
     query = "我想要跟機車有關的股票"
+    print(ir_predictor(query))
+
+    query = "我想要跟機器人有關的股票"
     print(ir_predictor(query))
