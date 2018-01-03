@@ -47,6 +47,7 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
                     if not messaging_event["message"].get("text"):
+                        # handle non-text message
                         replied_text = 'Hi~ 我是股市小精靈，請輸入"你好"來開始對話喔！我現在可以用指數或是新聞來幫您分析股票喔！'
                         send_message(sender_id, replied_text, "simple")
                         return "ok", 200
@@ -84,7 +85,7 @@ def webhook():
                         send_message(sender_id, replied_text, "stock")
 
                         # asked for rating
-                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們平分：", "rating")
+                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們評分：", "rating")
 
                         usersRegister[sender_id] = "3"
 
