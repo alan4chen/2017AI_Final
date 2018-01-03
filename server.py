@@ -72,6 +72,9 @@ def webhook():
                         # show stock pic
                         send_message(sender_id, replied_text, "stock")
 
+                        # asked for rating
+                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們平分：", "rating")
+
                     elif usersRegister[sender_id] == "2":
                         del usersRegister[sender_id]
                         replied_text = ir_predictor(message_text)
@@ -79,6 +82,9 @@ def webhook():
 
                         # show stock pic
                         send_message(sender_id, replied_text, "stock")
+
+                        # asked for rating
+                        send_message(sender_id, "喜歡我們的服務嗎？請幫我們平分：", "rating")
 
                     else:
                         # handle quick response
@@ -92,8 +98,21 @@ def webhook():
                                 usersRegister[sender_id] = "2"
                                 replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
+
+                            # receive rating
+                            elif payload == "5s":
+                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                            elif payload == "4s":
+                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                            elif payload == "3s":
+                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                            elif payload == "2s":
+                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
+                            elif payload == "1s":
+                                send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
                             else:
                                 pass
+
                         else:
                             usersRegister[sender_id]  = "0"
                             replied_text = "請再次選擇下列兩種分析方式："
@@ -142,6 +161,42 @@ def send_message(recipient_id, message_text, action="simple"):
                 ]
             }
         })
+    elif action == "rating":
+        data = json.dumps({
+            "recipient": {
+                "id": recipient_id
+            },
+            "message":{
+                "text": message_text,
+                "quick_replies":[
+                  {
+                    "content_type":"text",
+                    "title":"5★",
+                    "payload":"5s"
+                  },
+                  {
+                    "content_type":"text",
+                    "title":"4",
+                    "payload":"4s"
+                  },
+                  {
+                    "content_type":"text",
+                    "title":"3",
+                    "payload":"3s"
+                  },
+                  {
+                    "content_type":"text",
+                    "title":"2",
+                    "payload":"2s"
+                  },
+                  {
+                    "content_type":"text",
+                    "title":"1",
+                    "payload":"1s"
+                  }
+                ]
+            }
+        })
     elif action == "simple":
         data = json.dumps({
             "recipient": {
@@ -163,7 +218,7 @@ def send_message(recipient_id, message_text, action="simple"):
                         "template_type": "media",
                         "elements": [
                             {
-                                "media_type": "<image|video>",
+                                "media_type": "image",
                                 "url": "https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater"
                             }
                         ]
