@@ -68,7 +68,7 @@ def webhook():
                         del usersRegister[sender_id]
                         replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
-                        
+
                         # show stock pic
                         send_message(sender_id, replied_text, "stock")
 
@@ -152,7 +152,7 @@ def send_message(recipient_id, message_text, action="simple"):
             }
         })
     elif action == "stock":
-        data = json.dump({
+        data = json.dumps({
             "recipient": {
                 "id": recipient_id
             },
