@@ -70,7 +70,7 @@ def handler(sentence):
     ret_stockID = 0
     for stock_num in [StockRankNum[idx][x] for x in sorted(random.sample(range(5), 3))]:
         if ret_stockID == 0:
-            ret_stockID = stock_num
+            ret_stockID = stock_ids[stock_num]
         tmp = ""
         tmp += str(stock_ids[stock_num]) + " " + stock_names[stock_num] + "\n參考網址:" + "https://tw.stock.yahoo.com/q/q?s=" + str(stock_ids[stock_num]) + "\n"
 
