@@ -68,11 +68,17 @@ def webhook():
                         del usersRegister[sender_id]
                         replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
+                        
+                        # show stock pic
+                        send_message(sender_id, replied_text, "stock")
 
                     elif usersRegister[sender_id] == "2":
                         del usersRegister[sender_id]
                         replied_text = ir_predictor(message_text)
                         send_message(sender_id, replied_text, "simple")
+
+                        # show stock pic
+                        send_message(sender_id, replied_text, "stock")
 
                     else:
                         # handle quick response
@@ -82,12 +88,10 @@ def webhook():
                                 usersRegister[sender_id] = "1"
                                 replied_text = "您選擇了指標分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
-                                send_message(sender_id, replied_text, "stock")
                             elif payload == "2":
                                 usersRegister[sender_id] = "2"
                                 replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
-                                send_message(sender_id, replied_text, "stock")
                             else:
                                 pass
                         else:
