@@ -5,7 +5,7 @@ Stock share is a popular investment tool in the contemporary era. In general, a 
 * Install Python3.5 or higher version
 * Install requirement
 ```
-pip install -r requirement
+pip install -r requirements.txt
 ```
 * Create indicator_predictor/word2vec/ directory
 ```

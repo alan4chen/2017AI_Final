@@ -3,6 +3,7 @@
 
 import sys
 import json
+import logging
 from datetime import datetime
 
 import requests
@@ -49,7 +50,8 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
-    log(data)  # you may not want to log every incoming message in production, but it's good for testing
+    logging.info("__________ New Request __________")
+    logging.debug("Received: {}".format(data))
 
     if data["object"] == "page":
         for entry in data["entry"]:
@@ -58,27 +60,36 @@ def webhook():
                 if messaging_event.get("message"):  # someone sent us a message
                     sender_id = messaging_event["sender"]["id"]  # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                    logging.info("receive message from {}".format(sender_id))
 
                     if not messaging_event["message"].get("text"):
-                        # handle non-text message
+                        logging.info("Status: Message does not contain text, unable to handle the message!")
+
                         replied_text = 'Hi~ 我是股市小精靈，請輸入"你好"來開始對話喔！我現在可以用指數或是新聞來幫您分析股票喔！'
                         send_message(sender_id, replied_text, "simple")
+
                         return "ok", 200
 
                     message_text = messaging_event["message"]["text"]  # the message's text
 
                     if sender_id not in usersRegister and message_text == "你好":
                         # User say hello and start a new conversation
+                        logging.info("Status: New User wants to start a conversation!")
+
                         usersRegister = {sender_id: "0"}
                         replied_text = "您好～ 請選擇下列兩種分析方式："
                         send_message(sender_id, replied_text, "choice")
 
                     elif sender_id not in usersRegister and message_text != "你好":
                         # User say did not start a conversation, reply usage
+                        logging.info("Status: New User does not start a conversation!")
+
                         replied_text = 'Hi~ 我是股市小精靈，請輸入"你好"來開始對話喔！我現在可以用指數或是新聞來幫您分析股票喔！'
                         send_message(sender_id, replied_text, "simple")
 
                     elif usersRegister[sender_id] == "1":
+                        logging.info("Status: Handle query with Indicator method!")
+
                         stockID, replied_text = handler(message_text)
                         send_message(sender_id, replied_text, "simple")
 
@@ -92,6 +103,8 @@ def webhook():
                         usersRegister[sender_id] = "3"
 
                     elif usersRegister[sender_id] == "2":
+
+                        logging.info("Status: Handle query with Retrieval method!")
                         stockID, replied_text = ir_predictor(message_text)
                         send_message(sender_id, replied_text, "simple")
 
@@ -106,6 +119,12 @@ def webhook():
 
                     elif usersRegister[sender_id] == "3":
                         del usersRegister[sender_id]
+
+                        logging.info("Status: Handle user's rating! ")
+                        if messaging_event["message"].get("quick_reply"):
+                            payload = messaging_event["message"]["quick_reply"]["payload"]
+                            logging.info("{} rates {}!".format(sender_id, payload))
+
                         send_message(sender_id, "已收到您的回覆！ 謝謝！", "simple")
 
                         # # receive rating
@@ -129,16 +148,20 @@ def webhook():
                         if messaging_event["message"].get("quick_reply"):
                             payload = messaging_event["message"]["quick_reply"]["payload"]
                             if payload == "1":
+                                logging.info("Status: User {} chose Indicator Method!".format(sender_id))
                                 usersRegister[sender_id] = "1"
                                 replied_text = "您選擇了指標分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
+
                             elif payload == "2":
+                                logging.info("Status: User {} chose Retrial Method!".format(sender_id))
                                 usersRegister[sender_id] = "2"
                                 replied_text = "您選擇了新聞分析方法，請輸入查詢內容："
                                 send_message(sender_id, replied_text, "simple")
                             else:
                                 pass
                         else:
+                            logging.info("Status: User {} did not choose a method!".format(sender_id))
                             usersRegister[sender_id]  = "0"
                             replied_text = "請再次選擇下列兩種分析方式："
                             send_message(sender_id, replied_text, "choice")
@@ -157,7 +180,7 @@ def webhook():
 
 def send_message(recipient_id, message_text, action="simple"):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    logging.debug("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": PAGE_ACCESS_TOKEN
@@ -256,15 +279,13 @@ def send_message(recipient_id, message_text, action="simple"):
         pass
 
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+
     if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
-
-
-def log(msg):  # simple wrapper for logging to stdout on heroku
-    print(u"{}: {}".format(datetime.now(), msg))
-    sys.stdout.flush()
+        logging.error("Return Error Code: {}, Info: {}".format(r.status_code, r.text))
 
 
 if __name__ == '__main__':
+    logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='server.log', level=logging.INFO)
+
     app.run(host = '0.0.0.0', port = 80, debug=True)
