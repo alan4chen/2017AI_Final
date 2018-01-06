@@ -59,6 +59,7 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
+    logger.info("")
     logger.info("__________ New Request __________")
     logger.debug("Received: {}".format(data))
 
