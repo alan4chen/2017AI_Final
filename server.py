@@ -26,18 +26,18 @@ PAGE_ACCESS_TOKEN = "EAANa6oMiTBgBAHBWq4T1oB2Ejhh7HIaH5IWxZCvUZCxg1djsid95QDpC5e
 VERIFY_TOKEN = "foo"
 
 usersRegister = {}
-stockMapping = {2427:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                2453:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                2468:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                2471:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                2480:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                3029:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                3130:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                4994:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                5203:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                6112:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                6183:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
-                6214:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1533746556741079/?type=3&theater",
+stockMapping = {2427:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567056459029/?type=3&theater",
+                2453:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567043125697/?type=3&theater",
+                2468:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567059792362/?type=3&theater",
+                2471:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567039792364/?type=3&theater",
+                2480:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567179792350/?type=3&theater",
+                3029:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567233125678/?type=3&theater",
+                3130:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567239792344/?type=3&theater",
+                4994:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567243125677/?type=3&theater",
+                5203:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567266459008/?type=3&theater",
+                6112:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567289792339/?type=3&theater",
+                6183:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567326459002/?type=3&theater",
+                6214:"https://www.facebook.com/TStockR/photos/a.1533746516741083.1073741828.1529609040488164/1536567339792334/?type=3&theater"
                 }
 
 @app.route('/', methods=['GET'])
