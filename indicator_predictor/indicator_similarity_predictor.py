@@ -57,9 +57,9 @@ def handler(sentence):
 
 
     if idx == -1:
-        return "嗯...你的要求條件太多了喲~ 請減少一些限制~"
+        return 0, "嗯...你的要求條件太多了喲~ 請減少一些限制~"
     elif idx == -2:
-        return "聽不懂你在說什麼耶~"
+        return 0, "聽不懂你在說什麼耶~"
 
     ret = ""
     ret += random.choice(idx2pihua[idx]) + "\n" # 分類的說明
